@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Fees{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">FINANCE</div><h1>Fees Management</h1><p>Track paid and pending school fees.</p></div></div>
+<div class="card"><h2>💳 Add Fee Record</h2><form method="POST" class="form-grid">
+<select name="student" required><option value="">Select student</option>{% for s in students %}<option value="{{ s.name }}">{{ s.name }} — Roll {{ s.roll }}</option>{% endfor %}</select>
+<input name="amount" type="number" step="0.01" min="0" placeholder="Amount" required><input name="month" placeholder="Month / Term">
+<select name="status"><option>Pending</option><option>Paid</option></select><button class="btn primary" type="submit">Save Fee</button>
+</form></div>
+<div class="card"><div class="card-head"><h2>Fee Records</h2><span class="badge">{{ fees|length }}</span></div>
+<div class="table-wrap"><table><thead><tr><th>Student</th><th>Amount</th><th>Month</th><th>Status</th><th>Date</th><th>Action</th></tr></thead><tbody>
+{% for f in fees|reverse %}<tr><td>{{ f.student }}</td><td>₹{{ f.amount }}</td><td>{{ f.month }}</td><td><span class="status {{ f.status|lower }}">{{ f.status }}</span></td><td>{{ f.date }}</td><td><a class="btn small" href="{{ url_for('edit_fee', fee_id=f.id) }}">Edit</a></td></tr>{% else %}<tr><td colspan="6" class="empty">No fee records.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

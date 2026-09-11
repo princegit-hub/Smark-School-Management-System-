@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Marks{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">ACADEMIC PERFORMANCE</div><h1>Marks & Results</h1><p>Record examination marks.</p></div></div>
+<div class="card"><h2>📊 Add Marks</h2><form method="POST" class="form-grid">
+<select name="student" required><option value="">Select student</option>{% for s in students %}<option value="{{ s.name }}">{{ s.name }} — Roll {{ s.roll }}</option>{% endfor %}</select>
+<input name="subject" placeholder="Subject" required><input name="marks" type="number" min="0" placeholder="Marks obtained" required><input name="max_marks" type="number" min="1" value="100" placeholder="Maximum marks">
+<button class="btn primary" type="submit">Save Marks</button></form></div>
+<div class="card"><div class="card-head"><h2>Marks Records</h2><span class="badge">{{ marks|length }}</span></div>
+<div class="table-wrap"><table><thead><tr><th>Student</th><th>Subject</th><th>Marks</th><th>Max</th><th>Date</th><th>Action</th></tr></thead><tbody>
+{% for m in marks|reverse %}<tr><td>{{ m.student }}</td><td>{{ m.subject }}</td><td><b>{{ m.marks }}</b></td><td>{{ m.max_marks }}</td><td>{{ m.date }}</td><td><a class="btn small" href="{{ url_for('edit_mark', mark_id=m.id) }}">Edit</a></td></tr>{% else %}<tr><td colspan="6" class="empty">No marks records.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}

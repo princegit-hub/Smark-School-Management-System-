@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+{% block title %}Edit Notice{% endblock %}
+{% block content %}<div class="page-head"><div><div class="eyebrow">COMMUNICATION</div><h1>Edit Notice</h1><p>Update the existing notice.</p></div></div><div class="card"><form method="POST"><input name="title" value="{{ notice.title }}" placeholder="Notice title" required><textarea name="message" rows="6" placeholder="Notice message" required>{{ notice.message }}</textarea><div class="form-actions"><button class="btn primary" type="submit">Save Changes</button><a class="btn" href="{{ url_for('notices') }}">Cancel</a></div></form></div>{% endblock %}
