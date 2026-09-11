@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Teachers{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">STAFF MANAGEMENT</div><h1>Teachers</h1><p>Maintain teacher and department records.</p></div></div>
+<div class="card"><h2>➕ Add Teacher</h2><form method="POST" class="form-grid">
+<input name="name" placeholder="Teacher name" required><input name="subject" placeholder="Subject">
+<input name="department" placeholder="Department"><input name="phone" placeholder="Phone">
+<input name="email" type="email" placeholder="Email"><button class="btn primary" type="submit">Add Teacher</button>
+</form></div>
+<div class="card"><div class="card-head"><h2>Teacher List</h2><span class="badge">{{ teachers|length }} records</span></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Name</th><th>Subject</th><th>Department</th><th>Phone</th><th>Email</th></tr></thead><tbody>
+{% for t in teachers %}<tr><td>{{ t.id }}</td><td><b>{{ t.name }}</b></td><td>{{ t.subject }}</td><td>{{ t.department }}</td><td>{{ t.phone }}</td><td>{{ t.email }}</td></tr>{% else %}<tr><td colspan="6" class="empty">No teachers yet.</td></tr>{% endfor %}
+</tbody></table></div></div>
+{% endblock %}
