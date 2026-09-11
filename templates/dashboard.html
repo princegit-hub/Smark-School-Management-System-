@@ -4,7 +4,10 @@
 
 {% block content %}
 
-<!-- School Hero Banner -->
+<!-- =====================================
+     SCHOOL HERO
+     ===================================== -->
+
 <div class="school-dashboard-hero">
 
   <img
@@ -15,13 +18,20 @@
   <div class="school-dashboard-overlay">
 
     <div>
-      <div class="eyebrow">SMART SCHOOL MANAGEMENT SYSTEM</div>
 
-      <h1>Welcome Back, {{ session.get('username','Admin') }} 👋</h1>
+      <div class="eyebrow">
+        SMART SCHOOL MANAGEMENT SYSTEM
+      </div>
+
+      <h1>
+        Welcome Back,
+        {{ session.get('username','Admin') }} 👋
+      </h1>
 
       <p>
         Manage your school efficiently from one powerful dashboard.
       </p>
+
     </div>
 
     <div class="live hero-live">
@@ -33,7 +43,9 @@
 </div>
 
 
-<!-- Statistics -->
+<!-- =====================================
+     STATISTICS
+     ===================================== -->
 
 <div class="grid four">
 
@@ -64,35 +76,50 @@
 </div>
 
 
-<!-- Fees -->
+<!-- =====================================
+     FEES
+     ===================================== -->
 
 <div class="grid three">
 
   <div class="card">
+
     <h3>💰 Total Fees</h3>
+
     <div class="big">
       ₹{{ "%.2f"|format(total_fees) }}
     </div>
+
   </div>
 
+
   <div class="card">
+
     <h3>✅ Paid Fees</h3>
+
     <div class="big">
       ₹{{ "%.2f"|format(paid_fees) }}
     </div>
+
   </div>
 
+
   <div class="card">
+
     <h3>⏳ Pending Fees</h3>
+
     <div class="big">
       ₹{{ "%.2f"|format(pending_fees) }}
     </div>
+
   </div>
 
 </div>
 
 
-<!-- School Ground Photo -->
+<!-- =====================================
+     SCHOOL GROUND PHOTO
+     ===================================== -->
 
 <div class="school-feature">
 
@@ -103,13 +130,18 @@
 
   <div class="school-feature-content">
 
-    <div class="eyebrow">OUR SCHOOL CAMPUS</div>
+    <div class="eyebrow">
+      OUR SCHOOL CAMPUS
+    </div>
 
-    <h2>Learning Beyond the Classroom</h2>
+    <h2>
+      Learning Beyond the Classroom
+    </h2>
 
     <p>
-      Keep track of students, academics, attendance and
-      school activities through the Smart School Management System.
+      Keep track of students, academics, attendance
+      and school activities through the Smart School
+      Management System.
     </p>
 
   </div>
@@ -117,9 +149,13 @@
 </div>
 
 
-<!-- Recent Students + Notices -->
+<!-- =====================================
+     RECENT STUDENTS + NOTICES
+     ===================================== -->
 
 <div class="grid two">
+
+  <!-- RECENT STUDENTS -->
 
   <div class="card">
 
@@ -135,42 +171,49 @@
 
     {% if recent_students %}
 
-      <div class="list">
+    <div class="list">
 
-        {% for s in recent_students %}
+      {% for s in recent_students %}
 
-          <div class="list-row">
+      <div class="list-row">
 
-            <span class="avatar">👤</span>
+        <span class="avatar">
+          👤
+        </span>
 
-            <div>
+        <div>
 
-              <b>{{ s.name }}</b>
+          <b>
+            {{ s.name }}
+          </b>
 
-              <small>
-                Roll {{ s.roll }} •
-                Class {{ s['class'] }}
-                {{ s.section }}
-              </small>
+          <small>
+            Roll {{ s.roll }}
+            •
+            Class {{ s['class'] }}
+            {{ s.section }}
+          </small>
 
-            </div>
-
-          </div>
-
-        {% endfor %}
+        </div>
 
       </div>
 
+      {% endfor %}
+
+    </div>
+
     {% else %}
 
-      <p class="muted">
-        No students added yet.
-      </p>
+    <p class="muted">
+      No students added yet.
+    </p>
 
     {% endif %}
 
   </div>
 
+
+  <!-- LATEST NOTICES -->
 
   <div class="card">
 
@@ -188,15 +231,21 @@
 
       {% for n in recent_notices %}
 
-        <div class="notice-mini">
+      <div class="notice-mini">
 
-          <b>{{ n.title }}</b>
+        <b>
+          {{ n.title }}
+        </b>
 
-          <small>{{ n.date }}</small>
+        <small>
+          {{ n.date }}
+        </small>
 
-          <p>{{ n.message }}</p>
+        <p>
+          {{ n.message }}
+        </p>
 
-        </div>
+      </div>
 
       {% endfor %}
 
@@ -213,7 +262,9 @@
 </div>
 
 
-<!-- Campus Photo -->
+<!-- =====================================
+     CAMPUS PHOTO
+     ===================================== -->
 
 <div class="campus-card">
 
@@ -224,9 +275,13 @@
 
   <div class="campus-overlay">
 
-    <div class="eyebrow">SCHOOL CAMPUS</div>
+    <div class="eyebrow">
+      SCHOOL CAMPUS
+    </div>
 
-    <h2>Our School • Our Pride</h2>
+    <h2>
+      Our School • Our Pride
+    </h2>
 
   </div>
 
