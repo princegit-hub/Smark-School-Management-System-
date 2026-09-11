@@ -1,24 +1,235 @@
 {% extends "base.html" %}
+
 {% block title %}Dashboard{% endblock %}
+
 {% block content %}
-<div class="page-head"><div><div class="eyebrow">OVERVIEW</div><h1>Admin Dashboard</h1><p>Welcome back, {{ session.get('username','Admin') }}.</p></div><div class="live">● SYSTEM ONLINE</div></div>
+
+<!-- School Hero Banner -->
+<div class="school-dashboard-hero">
+
+  <img
+    src="{{ url_for('static', filename='school-building.jpg') }}"
+    alt="School Building"
+  >
+
+  <div class="school-dashboard-overlay">
+
+    <div>
+      <div class="eyebrow">SMART SCHOOL MANAGEMENT SYSTEM</div>
+
+      <h1>Welcome Back, {{ session.get('username','Admin') }} 👋</h1>
+
+      <p>
+        Manage your school efficiently from one powerful dashboard.
+      </p>
+    </div>
+
+    <div class="live hero-live">
+      ● SYSTEM ONLINE
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Statistics -->
+
 <div class="grid four">
-  <div class="stat"><span>👨‍🎓</span><small>Students</small><strong>{{ total_students }}</strong></div>
-  <div class="stat"><span>👩‍🏫</span><small>Teachers</small><strong>{{ total_teachers }}</strong></div>
-  <div class="stat"><span>🗓️</span><small>Attendance Records</small><strong>{{ total_attendance }}</strong></div>
-  <div class="stat"><span>📚</span><small>Marks Records</small><strong>{{ total_marks }}</strong></div>
+
+  <div class="stat">
+    <span>👨‍🎓</span>
+    <small>Students</small>
+    <strong>{{ total_students }}</strong>
+  </div>
+
+  <div class="stat">
+    <span>👩‍🏫</span>
+    <small>Teachers</small>
+    <strong>{{ total_teachers }}</strong>
+  </div>
+
+  <div class="stat">
+    <span>🗓️</span>
+    <small>Attendance Records</small>
+    <strong>{{ total_attendance }}</strong>
+  </div>
+
+  <div class="stat">
+    <span>📚</span>
+    <small>Marks Records</small>
+    <strong>{{ total_marks }}</strong>
+  </div>
+
 </div>
+
+
+<!-- Fees -->
+
 <div class="grid three">
-  <div class="card"><h3>💰 Total Fees</h3><div class="big">₹{{ "%.2f"|format(total_fees) }}</div></div>
-  <div class="card"><h3>✅ Paid Fees</h3><div class="big">₹{{ "%.2f"|format(paid_fees) }}</div></div>
-  <div class="card"><h3>⏳ Pending Fees</h3><div class="big">₹{{ "%.2f"|format(pending_fees) }}</div></div>
+
+  <div class="card">
+    <h3>💰 Total Fees</h3>
+    <div class="big">
+      ₹{{ "%.2f"|format(total_fees) }}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✅ Paid Fees</h3>
+    <div class="big">
+      ₹{{ "%.2f"|format(paid_fees) }}
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⏳ Pending Fees</h3>
+    <div class="big">
+      ₹{{ "%.2f"|format(pending_fees) }}
+    </div>
+  </div>
+
 </div>
+
+
+<!-- School Ground Photo -->
+
+<div class="school-feature">
+
+  <img
+    src="{{ url_for('static', filename='school-ground.jpg') }}"
+    alt="School Sports Ground"
+  >
+
+  <div class="school-feature-content">
+
+    <div class="eyebrow">OUR SCHOOL CAMPUS</div>
+
+    <h2>Learning Beyond the Classroom</h2>
+
+    <p>
+      Keep track of students, academics, attendance and
+      school activities through the Smart School Management System.
+    </p>
+
+  </div>
+
+</div>
+
+
+<!-- Recent Students + Notices -->
+
 <div class="grid two">
-  <div class="card"><div class="card-head"><h2>Recent Students</h2><a href="{{ url_for('students') }}">View all</a></div>
-    {% if recent_students %}<div class="list">{% for s in recent_students %}<div class="list-row"><span class="avatar">👤</span><div><b>{{ s.name }}</b><small>Roll {{ s.roll }} • Class {{ s['class'] }} {{ s.section }}</small></div></div>{% endfor %}</div>{% else %}<p class="muted">No students added yet.</p>{% endif %}
+
+  <div class="card">
+
+    <div class="card-head">
+
+      <h2>Recent Students</h2>
+
+      <a href="{{ url_for('students') }}">
+        View all
+      </a>
+
+    </div>
+
+    {% if recent_students %}
+
+      <div class="list">
+
+        {% for s in recent_students %}
+
+          <div class="list-row">
+
+            <span class="avatar">👤</span>
+
+            <div>
+
+              <b>{{ s.name }}</b>
+
+              <small>
+                Roll {{ s.roll }} •
+                Class {{ s['class'] }}
+                {{ s.section }}
+              </small>
+
+            </div>
+
+          </div>
+
+        {% endfor %}
+
+      </div>
+
+    {% else %}
+
+      <p class="muted">
+        No students added yet.
+      </p>
+
+    {% endif %}
+
   </div>
-  <div class="card"><div class="card-head"><h2>Latest Notices</h2><a href="{{ url_for('notices') }}">View all</a></div>
-    {% if recent_notices %}{% for n in recent_notices %}<div class="notice-mini"><b>{{ n.title }}</b><small>{{ n.date }}</small><p>{{ n.message }}</p></div>{% endfor %}{% else %}<p class="muted">No notices published yet.</p>{% endif %}
+
+
+  <div class="card">
+
+    <div class="card-head">
+
+      <h2>Latest Notices</h2>
+
+      <a href="{{ url_for('notices') }}">
+        View all
+      </a>
+
+    </div>
+
+    {% if recent_notices %}
+
+      {% for n in recent_notices %}
+
+        <div class="notice-mini">
+
+          <b>{{ n.title }}</b>
+
+          <small>{{ n.date }}</small>
+
+          <p>{{ n.message }}</p>
+
+        </div>
+
+      {% endfor %}
+
+    {% else %}
+
+      <p class="muted">
+        No notices published yet.
+      </p>
+
+    {% endif %}
+
   </div>
+
 </div>
+
+
+<!-- Campus Photo -->
+
+<div class="campus-card">
+
+  <img
+    src="{{ url_for('static', filename='school-campus.jpg') }}"
+    alt="School Campus"
+  >
+
+  <div class="campus-overlay">
+
+    <div class="eyebrow">SCHOOL CAMPUS</div>
+
+    <h2>Our School • Our Pride</h2>
+
+  </div>
+
+</div>
+
 {% endblock %}
