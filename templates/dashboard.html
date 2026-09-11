@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">OVERVIEW</div><h1>Admin Dashboard</h1><p>Welcome back, {{ session.get('username','Admin') }}.</p></div><div class="live">● SYSTEM ONLINE</div></div>
+<div class="grid four">
+  <div class="stat"><span>👨‍🎓</span><small>Students</small><strong>{{ total_students }}</strong></div>
+  <div class="stat"><span>👩‍🏫</span><small>Teachers</small><strong>{{ total_teachers }}</strong></div>
+  <div class="stat"><span>🗓️</span><small>Attendance Records</small><strong>{{ total_attendance }}</strong></div>
+  <div class="stat"><span>📚</span><small>Marks Records</small><strong>{{ total_marks }}</strong></div>
+</div>
+<div class="grid three">
+  <div class="card"><h3>💰 Total Fees</h3><div class="big">₹{{ "%.2f"|format(total_fees) }}</div></div>
+  <div class="card"><h3>✅ Paid Fees</h3><div class="big">₹{{ "%.2f"|format(paid_fees) }}</div></div>
+  <div class="card"><h3>⏳ Pending Fees</h3><div class="big">₹{{ "%.2f"|format(pending_fees) }}</div></div>
+</div>
+<div class="grid two">
+  <div class="card"><div class="card-head"><h2>Recent Students</h2><a href="{{ url_for('students') }}">View all</a></div>
+    {% if recent_students %}<div class="list">{% for s in recent_students %}<div class="list-row"><span class="avatar">👤</span><div><b>{{ s.name }}</b><small>Roll {{ s.roll }} • Class {{ s['class'] }} {{ s.section }}</small></div></div>{% endfor %}</div>{% else %}<p class="muted">No students added yet.</p>{% endif %}
+  </div>
+  <div class="card"><div class="card-head"><h2>Latest Notices</h2><a href="{{ url_for('notices') }}">View all</a></div>
+    {% if recent_notices %}{% for n in recent_notices %}<div class="notice-mini"><b>{{ n.title }}</b><small>{{ n.date }}</small><p>{{ n.message }}</p></div>{% endfor %}{% else %}<p class="muted">No notices published yet.</p>{% endif %}
+  </div>
+</div>
+{% endblock %}

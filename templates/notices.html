@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Notices{% endblock %}
+{% block content %}
+<div class="page-head"><div><div class="eyebrow">COMMUNICATION</div><h1>Notice Board</h1><p>Publish important school announcements.</p></div></div>
+<div class="card"><h2>📢 Publish Notice</h2><form method="POST">
+<input name="title" placeholder="Notice title" required><textarea name="message" rows="4" placeholder="Notice message" required></textarea>
+<button class="btn primary" type="submit">Publish Notice</button></form></div>
+<div class="notice-grid">
+{% for n in notices|reverse %}<div class="notice-card"><span>📌 {{ n.date }}</span><h2>{{ n.title }}</h2><p>{{ n.message }}</p></div>{% else %}<div class="card"><p class="muted">No notices published yet.</p></div>{% endfor %}
+</div>
+{% endblock %}
