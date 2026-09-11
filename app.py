@@ -468,43 +468,109 @@ def notices():
     return render_template("notices.html", notices=data)
 
 
-@app.route("/admin")
+# =========================
+# EDIT / UPDATE ROUTES
+# =========================
+
+@app.route("/edit_student/<int:student_id>", methods=["GET", "POST"])
 @login_required
-def admin():
-    return render_template(
-        "admin.html",
-        students=Student.query.count(),
-        teachers=Teacher.query.count(),
-        attendance=Attendance.query.count(),
-        marks=Mark.query.count(),
-        fees=Fee.query.count(),
-        notices=Notice.query.count()
-    )
+def edit_student(student_id):
+    student = db.session.get(Student, student_id)
+    if not student:
+        flash("Student not found.", "warning")
+        return redirect(url_for("students"))
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        roll = request.form.get("roll", "").strip()
+        if not name or not roll:
+            flash("Student name and roll number are required.", "danger")
+        else:
+            student.name = name
+            student.roll = roll
+            student.class_name = request.form.get("class", "").strip()
+            student.section = request.form.get("section", "").strip()
+            student.gender = request.form.get("gender", "").strip()
+            student.phone = request.form.get("phone", "").strip()
+            student.email = request.form.get("email", "").strip()
+            db.session.commit()
+            flash("Student updated successfully!", "success")
+            return redirect(url_for("students"))
+    return render_template("edit_student.html", student=student_dict(student))
 
 
-@app.route("/change_password", methods=["POST"])
+@app.route("/edit_teacher/<int:teacher_id>", methods=["GET", "POST"])
 @login_required
-def change_password():
-    admin = Admin.query.filter_by(username=session.get("username")).first()
-    cur = request.form.get("current_password", "")
-    new = request.form.get("new_password", "")
+def edit_teacher(teacher_id):
+    teacher = db.session.get(Teacher, teacher_id)
+    if not teacher:
+        flash("Teacher not found.", "warning")
+        return redirect(url_for("teachers"))
+    if request.method == "POST":
+        name = request.form.get("name", "").strip()
+        if not name:
+            flash("Teacher name is required.", "danger")
+        else:
+            teacher.name = name
+            teacher.subject = request.form.get("subject", "").strip()
+            teacher.department = request.form.get("department", "").strip()
+            teacher.phone = request.form.get("phone", "").strip()
+            teacher.email = request.form.get("email", "").strip()
+            db.session.commit()
+            flash("Teacher updated successfully!", "success")
+            return redirect(url_for("teachers"))
+    return render_template("edit_teacher.html", teacher=teacher_dict(teacher))
 
-    if not admin or not check_password_hash(admin.password, cur):
-        flash("Current password is incorrect.", "danger")
-    elif len(new) < 4:
-        flash("New password must contain at least 4 characters.", "danger")
-    else:
-        admin.password = generate_password_hash(new)
+
+@app.route("/edit_attendance/<int:attendance_id>", methods=["GET", "POST"])
+@login_required
+def edit_attendance(attendance_id):
+    record = db.session.get(Attendance, attendance_id)
+    if not record:
+        flash("Attendance record not found.", "warning")
+        return redirect(url_for("attendance"))
+    if request.method == "POST":
+        record.student = request.form.get("student", "").strip()
+        record.date = request.form.get("date", "").strip()
+        record.status = request.form.get("status", "Present")
         db.session.commit()
-        flash("Password changed successfully!", "success")
-
-    return redirect(url_for("admin"))
-
-
-# Create database tables when the app starts.
-with app.app_context():
-    initialize_database()
+        flash("Attendance updated successfully!", "success")
+        return redirect(url_for("attendance"))
+    students_data = [student_dict(x) for x in Student.query.order_by(Student.id.asc()).all()]
+    return render_template("edit_attendance.html", record=attendance_dict(record), students=students_data)
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=True)
+@app.route("/edit_mark/<int:mark_id>", methods=["GET", "POST"])
+@login_required
+def edit_mark(mark_id):
+    record = db.session.get(Mark, mark_id)
+    if not record:
+        flash("Marks record not found.", "warning")
+        return redirect(url_for("marks"))
+    if request.method == "POST":
+        record.student = request.form.get("student", "").strip()
+        record.subject = request.form.get("subject", "").strip()
+        record.marks = request.form.get("marks", "0").strip()
+        record.max_marks = request.form.get("max_marks", "100").strip()
+        db.session.commit()
+        flash("Marks updated successfully!", "success")
+        return redirect(url_for("marks"))
+    students_data = [student_dict(x) for x in Student.query.order_by(Student.id.asc()).all()]
+    return render_template("edit_mark.html", mark=mark_dict(record), students=students_data)
+
+
+@app.route("/edit_fee/<int:fee_id>", methods=["GET", "POST"])
+@login_required
+def edit_fee(fee_id):
+    record = db.session.get(Fee, fee_id)
+    if not record:
+        flash("Fee record not found.", "warning")
+        return redirect(url_for("fees"))
+    if request.method == "POST":
+        record.student = request.form.get("student", "").strip()
+        record.amount = request.form.get("amount", "0").strip()
+        record.status = request.form.get("status", "Pending")
+        record.month = request.form.get("month", "").strip()
+        db.session.commit()
+        flash("Fee record updated successfully!", "success")
+        return redirect(url_for("fees"))
+    students_data = [student_dict(x)
